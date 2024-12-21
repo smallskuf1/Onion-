@@ -23,108 +23,38 @@ OniOn — это система многослойного шифрования 
 - **Производительность**: использует лёгкие алгоритмы шифрования для оптимизации работы на слабых устройствах.
 - **Безопасность**: за счет многослойного подхода, система может быть более безопасной по сравнению с базовыми алгоритмами.
 
-## Примеры использования
+## Благодарности
 
-### Пример 1: Шифрование сообщения
+я выражаею благодарность всем, кто способствовал созданию и улучшению проекта OniOn:
 
-```python
-import secrets
-from Crypto.Cipher import AES
-from Crypto.Util.Padding import pad, unpad
+1. pycryptodome — за предоставление высококачественного набора инструментов для реализации криптографических алгоритмов, таких как AES, HMAC и другие, которые составляют ядро нашей системы шифрования. Это библиотека, обеспечивающая безопасность и надежность всех операций шифрования и подписи данных.
 
-# Генерация ключа
-key = secrets.token_bytes(32)
 
-# Функция шифрования
-def encrypt_aes(message, key):
-    cipher = AES.new(key, AES.MODE_CBC)
-    ciphertext = cipher.encrypt(pad(message.encode(), AES.block_size))
-    return cipher.iv + ciphertext  # Возвращаем IV и зашифрованное сообщение
+2. OpenSSL — за разработку и поддержку широко используемой криптографической библиотеки, которая вдохновила нас на использование проверенных решений для реализации безопасности данных и обмена сообщениями.
 
-# Пример использования
-message = "Привет, это секретное сообщение!"
-encrypted_message = encrypt_aes(message, key)
-print("Зашифрованное сообщение:", encrypted_message)
 
-Пример 2: Расшифровка сообщения
+3. Crypto (и её производные) — за полезные криптографические функции, которые позволили интегрировать дополнительные методы защиты и шифрования, делая систему еще более мощной и безопасной.
 
-# Функция расшифровки
-def decrypt_aes(data, key):
-    iv = data[:16]
-    ciphertext = data[16:]
-    cipher = AES.new(key, AES.MODE_CBC, iv)
-    return unpad(cipher.decrypt(ciphertext), AES.block_size).decode()
 
-# Пример расшифровки
-decrypted_message = decrypt_aes(encrypted_message, key)
-print("Расшифрованное сообщение:", decrypted_message)
+4. Python Software Foundation — за создание и развитие Python, который является основным языком программирования для разработки данного проекта. Благодаря Python мы можем быстро создавать и развивать безопасные и функциональные решения.
 
-Пример 3: Использование в мессенджере
 
-Пример демонстрирует использование системы шифрования для отправки защищённого сообщения между клиентами.
+5. Библиотеки для работы с файлами — отдельная благодарность библиотекам, поддерживающим работу с файлами и их шифрование. Эти библиотеки позволяют не только шифровать текстовые данные, но и обеспечивать безопасность для всех типов файлов (от изображений до видео).
 
-def send_encrypted_message(message, key):
-    encrypted_message = encrypt_aes(message, key)
-    # Отправка зашифрованного сообщения через API
-    send_to_server(encrypted_message)
 
-def receive_encrypted_message(encrypted_message, key):
-    decrypted_message = decrypt_aes(encrypted_message, key)
-    return decrypted_message
+6. Руководители и участники Open-Source проектов — благодарим всех, кто делится своим опытом, знаниями и наработками. Ваши усилия вдохновляют нас создавать решения с открытым исходным кодом и постоянно улучшать их.
 
-# Пример отправки и получения
-message = "Это защищённое сообщение!"
-key = secrets.token_bytes(32)
-send_encrypted_message(message, key)
 
-Пример 4: Защита файлов
+7. Тестировщики и пользователи — большое спасибо всем, кто участвовал в тестировании данной системы шифрования, предоставляя обратную связь и помогая выявлять баги. Без вашей помощи проект не был бы таким стабильным и безопасным.
 
-Для защиты файлов можно использовать ту же схему шифрования с AES.
 
-def encrypt_file(file_path, key):
-    with open(file_path, 'rb') as f:
-        file_data = f.read()
-    cipher = AES.new(key, AES.MODE_CBC)
-    encrypted_data = cipher.encrypt(pad(file_data, AES.block_size))
-    with open(file_path + '.enc', 'wb') as enc_file:
-        enc_file.write(cipher.iv + encrypted_data)
+8. Разработчики и сообщество технологий безопасности — за их неоценимый вклад в развитие технологий безопасности, постоянное улучшение методов защиты данных и поиски уязвимостей. Ваши исследования помогают строить более надежные системы для защиты информации.
 
-def decrypt_file(encrypted_file_path, key):
-    with open(encrypted_file_path, 'rb') as f:
-        data = f.read()
-    iv = data[:16]
-    ciphertext = data[16:]
-    cipher = AES.new(key, AES.MODE_CBC, iv)
-    decrypted_data = unpad(cipher.decrypt(ciphertext), AES.block_size)
-    with open(encrypted_file_path.replace('.enc', '.dec'), 'wb') as dec_file:
-        dec_file.write(decrypted_data)
 
-# Пример шифрования и расшифровки файла
-file_path = 'example.txt'
-encrypt_file(file_path, key)
-decrypt_file(file_path + '.enc', key)
+9. Сообщество GitHub — за замечательную платформу для совместной работы, которая предоставляет удобные инструменты для разработки, обмена знаниями и кодом. Ваша поддержка дает возможность работать в открытом сообществе и делиться решениями с другими разработчиками.
 
-#Пример 4: защита файлов
 
-def encrypt_file(file_path, key):
-    with open(file_path, 'rb') as f:
-        file_data = f.read()
-    cipher = AES.new(key, AES.MODE_CBC)
-    encrypted_data = cipher.encrypt(pad(file_data, AES.block_size))
-    with open(file_path + '.enc', 'wb') as enc_file:
-        enc_file.write(cipher.iv + encrypted_data)
+10. Пользователи и сторонники проекта — благодарим всех пользователей, которые поддерживают проект, используют его и делятся своими мыслями, предложениями и критикой. Ваш интерес и участие — важный источник мотивации для дальнейшего развития.
 
-def decrypt_file(encrypted_file_path, key):
-    with open(encrypted_file_path, 'rb') as f:
-        data = f.read()
-    iv = data[:16]
-    ciphertext = data[16:]
-    cipher = AES.new(key, AES.MODE_CBC, iv)
-    decrypted_data = unpad(cipher.decrypt(ciphertext), AES.block_size)
-    with open(encrypted_file_path.replace('.enc', '.dec'), 'wb') as dec_file:
-        dec_file.write(decrypted_data)
 
-# Пример шифрования и расшифровки файла
-file_path = 'example.txt'
-encrypt_file(file_path, key)
-decrypt_file(file_path + '.enc', key)
+11. Другие криптографы и программисты, с которыми мы взаимодействуем — за ваши исследования, идеи и решения, которые активно влияют на развитие технологий шифрования и защиты данных. Все ваши достижения и работы являются основой, на которой мы строим свои решения.
