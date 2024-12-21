@@ -104,4 +104,27 @@ file_path = 'example.txt'
 encrypt_file(file_path, key)
 decrypt_file(file_path + '.enc', key)
 
+#Пример 4: защита файлов
 
+def encrypt_file(file_path, key):
+    with open(file_path, 'rb') as f:
+        file_data = f.read()
+    cipher = AES.new(key, AES.MODE_CBC)
+    encrypted_data = cipher.encrypt(pad(file_data, AES.block_size))
+    with open(file_path + '.enc', 'wb') as enc_file:
+        enc_file.write(cipher.iv + encrypted_data)
+
+def decrypt_file(encrypted_file_path, key):
+    with open(encrypted_file_path, 'rb') as f:
+        data = f.read()
+    iv = data[:16]
+    ciphertext = data[16:]
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    decrypted_data = unpad(cipher.decrypt(ciphertext), AES.block_size)
+    with open(encrypted_file_path.replace('.enc', '.dec'), 'wb') as dec_file:
+        dec_file.write(decrypted_data)
+
+# Пример шифрования и расшифровки файла
+file_path = 'example.txt'
+encrypt_file(file_path, key)
+decrypt_file(file_path + '.enc', key)
